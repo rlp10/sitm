@@ -9,6 +9,7 @@ Functionality
 - Start times for tasks
 - Postpone next task for random amount of time
 - Select the next task randomly
+- Calendar appointments
 
 Habits
 ------
@@ -32,6 +33,7 @@ Psychological
 - Precommit to next task
 - Set specific and meaningful goal for next task
 - Set goals and subgoals relating to the next task
+- Randomly add rewards as next tasks
 
 Notifications
 -------------
