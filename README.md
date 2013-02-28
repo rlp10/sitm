@@ -8,4 +8,4 @@ As well as acting as a task management program, it also helps you to adopt strat
 Status
 ------
 
-Currently, sitm is in planning stage.  If you wish to get involved then please post a question in the "Issues" bug tracker.  You should also consider following this repository.  There are general text documents representing the plan for coding, along with the ideas for plugins.
+Currently, sitm is in planning stage.  If you wish to get involved then please follow this repository at https://github.com/rlp10/sitm.  You can then read the various text documents and post any comments or questions that you have under the "Issues" bug tracker at github.
