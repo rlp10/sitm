@@ -34,6 +34,7 @@ Psychological
 - Set specific and meaningful goal for next task
 - Set goals and subgoals relating to the next task
 - Randomly add rewards as next tasks
+- Practice stoic negative visualisation
 
 Notifications
 -------------
