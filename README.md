@@ -9,3 +9,30 @@ Status
 ------
 
 Currently a basic command line task management system has been written, along with the plugin framework.
+
+Usage
+-----
+
+```bash
+$ sitm add "do something cool" # add a task
+
+$ sitm next # prints the next task
+do something cool 
+
+$ sitm ls # lists all pending tasks
+0   do something cool
+
+$ sitm do # marks next task as done
+
+$ sitm rm # removes next task
+
+$ sitm plugins # lists plugins
+...
+
+$ sitm enable test # enables plugin called test
+
+$ sitm disable test # disables plugin called test
+
+sitm -h # show all subcommands
+...
+```
