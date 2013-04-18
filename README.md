@@ -45,3 +45,8 @@ Data
 ----
 
 All data is stored in a file called .sitm.dat in the user's home directory.
+
+Aliases
+-------
+
+A file called aliases is included which can be sourced in your shell.

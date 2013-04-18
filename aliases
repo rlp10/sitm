@@ -1,0 +1,13 @@
+# In order to have a number of shortcuts, add sitm to your path and source this file in your .bashrc
+
+alias a="sitm add"
+alias c="sitm cat"
+alias d="sitm do"
+alias f="sitm first"
+alias g="sitm search" # g for grep
+alias l="sitm log"
+alias ll="sitm ls"
+alias m="sitm mv"
+alias n="sitm next"
+alias r="sitm rm"
+alias s="sitm set"
