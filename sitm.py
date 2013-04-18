@@ -11,6 +11,7 @@ import inspect
 import os
 import pdb
 import pickle
+import random
 
 # Tasklist - a dict of data to be persisted to disk
 # There are two tasklists, pending and done
@@ -40,6 +41,15 @@ def task_print_indexed(tasklist, task):
     '''Prints the index of the task along with its name'''
     index = tasklist.index(task)
     print("{}\t{}".format(index, task['name']))
+
+# Hooks
+
+def do_hook(func):
+    '''Decorator for do command'''
+    if not hasattr(do_hook, 'hooks'):
+        do_hook.hooks = []
+    do_hook.hooks.append(func)
+    return func
 
 # Commands 
 
@@ -81,13 +91,17 @@ def subcommand(func):
     return func
 
 @subcommand
-def add(data, name):
+def add(data, name, id=None):
     '''Adds a new uncompleted task to the database'''
     task = {
             'name': name,
             'added': datetime.datetime.now()
            }
-    data['pending'].append(task)
+    if id==None:
+        data['pending'].append(task)
+    else:
+        id = int(id)
+        data['pending'].insert(id, task)
     return data
 
 @subcommand
@@ -114,6 +128,8 @@ def do(data, id=None):
     del data['pending'][id]
     task['done'] = datetime.datetime.now()
     data['done'].append(task)
+    for func in do_hook.hooks:
+        data = func(data, task)
     return data
 
 @subcommand
@@ -123,6 +139,14 @@ def enable(data, name):
         data['enabled'].append(name)
     else:
         print("Plugin doesn't exist")
+    return data
+
+@subcommand
+def first(data, name):
+    '''Adds a new task at the top of the list'''
+    task = { 'name': name,
+             'added': datetime.datetime.now() }
+    data['pending'].insert(0, task)
     return data
 
 @subcommand
@@ -143,8 +167,10 @@ def ls(data):
 @subcommand
 def mv(data, old, new):
     '''Moves the task from the old to the new position'''
+    old = int(old)
+    new = int(new)
     task = data['pending'].pop(old)
-    data['pending'].insert(index, task)
+    data['pending'].insert(new, task)
     return data
 
 @subcommand
