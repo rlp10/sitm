@@ -93,6 +93,7 @@ def add(data, name):
 @subcommand
 def cat(data, id=None):
     '''Prints full information for task'''
+    id = int_or_next(id)
     for key, value in data['pending'][id].iteritems():
         print("{}\t{}".format(key, str(value)))
 
