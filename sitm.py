@@ -201,13 +201,6 @@ def rm(data, id=None):
     return data
 
 @subcommand
-def search(data, term):
-    '''Prints pending tasks that match the search term'''
-    tasks = filter(lambda task: term in task['name'], data['pending'])
-    for index, task in enumerate(tasks):
-        print("{}\t{}".format(index, task['name']))
-    
-@subcommand
 def set(data, key, value, id=None):
     '''Sets a value on a task'''
     id = int_or_next(data, id)
