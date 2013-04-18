@@ -31,3 +31,11 @@ def review(data):
         for func in funcs:
             print('{:12}'.format(str(func(data, day))), end='')
         print('')
+
+    done = len(data['done'])
+    now = datetime.datetime.now()
+    earliest = min([task['added'] for task in data['done'] + data['pending']])
+    difference = now - earliest
+    diff_in_mins = difference.seconds / 60
+    print('')
+    print('minutes per task: {}'.format(diff_in_mins/done))
