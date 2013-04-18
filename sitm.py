@@ -93,7 +93,7 @@ def add(data, name):
 @subcommand
 def cat(data, id=None):
     '''Prints full information for task'''
-    id = int_or_next(id)
+    id = int_or_next(data, id)
     for key, value in data['pending'][id].iteritems():
         print("{}\t{}".format(key, str(value)))
 
@@ -109,7 +109,7 @@ def disable(data, name):
 @subcommand
 def do(data, id=None):
     '''Marks next task as completed'''
-    id = int_or_next(id)
+    id = int_or_next(data, id)
     task = data['pending'][id]
     del data['pending'][id]
     task['done'] = datetime.datetime.now()
@@ -143,7 +143,8 @@ def ls(data):
 @subcommand
 def next(data):
     '''Prints next task's name'''
-    print(data['pending'][0]['name'])
+    id = int_or_next(data, None)
+    print(data['pending'][id]['name'])
 
 @subcommand
 def plugins(data):
@@ -158,7 +159,7 @@ def plugins(data):
 @subcommand
 def rm(data, id=None):
     '''Removes the next task'''
-    id = int_or_next(id)
+    id = int_or_next(data, id)
     data['pending'].pop(id)
     return data
 
@@ -172,7 +173,7 @@ def search(data, term):
 @subcommand
 def set(data, key, value, id=None):
     '''Sets a value on a task'''
-    id = int_or_next(id)
+    id = int_or_next(data, id)
     data['pending'][id][key] = value
     return data
 
