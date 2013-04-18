@@ -53,9 +53,13 @@ def do_hook(func):
 
 # Commands 
 
+def get_plugin_dir():
+    '''Returns the path of the plugin directory'''
+    return os.path.dirname(os.path.realpath(__file__)) + "/plugins"
+
 def get_plugins():
     '''Returns list of plugins'''
-    plugins = glob.glob("./plugins/*.py")
+    plugins = glob.glob(get_plugin_dir() + "/*.py")
     plugins = map(lambda name: name.partition("plugins/")[2], plugins)
     plugins = map(lambda name: name.partition(".py")[0], plugins)
     return plugins
@@ -217,7 +221,7 @@ def main():
     filename = os.path.expanduser('~/.sitm.dat')
     data = data_load(filename)
     for plugin in data['enabled']:
-        plugin_f = open("./plugins/" + plugin + ".py", "r")
+        plugin_f = open(get_plugin_dir() + "/" + plugin + ".py", "r")
         exec(plugin_f.read())
 
     args = vars(subcommand.parser.parse_args())
