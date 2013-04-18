@@ -40,3 +40,8 @@ $ sitm disable test # disables plugin called test
 sitm -h # show all subcommands
 ...
 ```
+
+Data
+----
+
+All data is stored in a file called .sitm.dat in the user's home directory.
