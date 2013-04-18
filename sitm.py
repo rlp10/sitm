@@ -25,13 +25,26 @@ def data_load(filename):
     try:
         return pickle.load(open(filename, "r"))
     except:
-        return { 'pending': [], 'done': [], 'enabled': [] }
+        return { 'pending': [], 'done': [], 'enabled': [], 'config': {} }
+
+def update_data(data):
+    '''Updates data with default keys'''
+    if not 'config' in data.keys():
+        data['config'] = {} 
+    return data
 
 # Task - a dict
 
+def get_pending_tasks(data):
+    '''Returns list of pending tasks'''
+    tasks = data['pending']
+    for func in pending_hook.hooks:
+        tasks = func(data, tasks)
+    return tasks
+
 def task_get_next_id(data):
     '''Returns id of next task'''
-    return 0
+    return get_pending_tasks(data)[0]['id']
 
 def task_print(task):
     '''Prints the name of the task'''
@@ -49,6 +62,13 @@ def do_hook(func):
     if not hasattr(do_hook, 'hooks'):
         do_hook.hooks = []
     do_hook.hooks.append(func)
+    return func
+
+def pending_hook(func):
+    '''Decorator for pending filters'''
+    if not hasattr(pending_hook, 'hooks'):
+        pending_hook.hooks = []
+    pending_hook.hooks.append(func)
     return func
 
 # Commands 
@@ -165,8 +185,8 @@ def log(data, name):
 @subcommand
 def ls(data):
     '''Prints list of all pending tasks'''
-    for index, task in enumerate(data['pending']):
-        print("{}\t{}".format(index, task['name']))
+    for task in get_pending_tasks(data):
+        print("{}\t{}".format(task['id'], task['name']))
 
 @subcommand
 def mv(data, old, new):
@@ -210,9 +230,14 @@ def set(data, key, value, id=None):
 # Main #
 
 def main():
-    # load plugins
+    # load data
     filename = os.path.expanduser('~/.sitm.dat')
     data = data_load(filename)
+    for task in data['pending']:
+        task['id'] = data['pending'].index(task)
+    data = update_data(data)
+
+    # load plugins
     for plugin in data['enabled']:
         plugin_f = open(get_plugin_dir() + "/" + plugin + ".py", "r")
         exec(plugin_f.read())
@@ -222,6 +247,11 @@ def main():
     args['data'] = data
     data = func(args)
     if data:
+        for task in data['pending']:
+            try:
+                del task['id']
+            except:
+                pass
         data_save(data, filename)
 
 if __name__ == '__main__':
