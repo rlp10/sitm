@@ -26,6 +26,8 @@ $ sitm do # marks next task as done
 
 $ sitm do --id 11 # marks task with id 11 as done
 
+$ sitm log "eat breakfast" # same as adding then doing the task
+
 $ sitm rm # removes next task
 
 $ sitm plugins # lists plugins
