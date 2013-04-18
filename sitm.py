@@ -141,6 +141,13 @@ def ls(data):
         print("{}\t{}".format(index, task['name']))
 
 @subcommand
+def mv(data, old, new):
+    '''Moves the task from the old to the new position'''
+    task = data['pending'].pop(old)
+    data['pending'].insert(index, task)
+    return data
+
+@subcommand
 def next(data):
     '''Prints next task's name'''
     id = int_or_next(data, None)
