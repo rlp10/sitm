@@ -57,6 +57,13 @@ def task_print_indexed(tasklist, task):
 
 # Hooks
 
+def add_hook(func):
+    '''Decorator for adding tasks'''
+    if not hasattr(add_hook, 'hooks'):
+        add_hook.hooks = []
+    add_hook.hooks.append(func)
+    return func
+
 def do_hook(func):
     '''Decorator for do command'''
     if not hasattr(do_hook, 'hooks'):
@@ -126,6 +133,8 @@ def add(data, name, id=None):
     else:
         id = int(id)
         data['pending'].insert(id, task)
+    for func in add_hook.hooks:
+        data = func(data, task)
     return data
 
 @subcommand
